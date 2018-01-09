@@ -6,8 +6,5 @@
 .idea
 out
 gen
-/gradlew
 .gradle/
-gradle/
-src/main/resources/
 src/test/
