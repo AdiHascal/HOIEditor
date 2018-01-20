@@ -1,10 +1,12 @@
 package com.adihascal.HOIEditor.parser;
 
+import com.adihascal.HOIEditor.IndentedFileWriter;
+
 public class SavePrimitive<T> implements SaveElement
 {
 	private T value;
 	
-	public SavePrimitive(T val)
+	SavePrimitive(T val)
 	{
 		this.value = val;
 	}
@@ -19,4 +21,11 @@ public class SavePrimitive<T> implements SaveElement
 	{
 		return value.toString();
 	}
+	
+	@Override
+	public void write(IndentedFileWriter writer)
+	{
+		writer.write(value);
+	}
+	
 }

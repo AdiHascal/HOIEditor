@@ -1,0 +1,15 @@
+Wars={
+	tag=active_war
+	policy=parent
+	name=#name
+}
+Factions={
+	tag=faction
+	policy=parent
+	name=#name
+}
+Countries={
+	tag=countries
+	policy=child
+	name=identifier
+}

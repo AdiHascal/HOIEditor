@@ -1,16 +1,28 @@
 package com.adihascal.HOIEditor.parser;
 
+import com.adihascal.HOIEditor.IndentedFileWriter;
+
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class SaveObject implements SaveElement
 {
 	@SuppressWarnings("ComparatorMethodParameterNotUsed")
 	private Map<String, SaveElement> members = new TreeMap<>((o1, o2) -> 1);
+	private String selfName;
 	
 	public void add(String key, SaveElement value)
 	{
 		members.put(key, value);
+	}
+	
+	public SaveElement remove(String key)
+	{
+		return members.remove(key);
 	}
 	
 	public Map<String, SaveElement> getMembers()
@@ -18,30 +30,54 @@ public class SaveObject implements SaveElement
 		return members;
 	}
 	
-	public SaveElement getByName(String name)
+	public SaveElement getFirstByName(String name)
 	{
-		return members.get(name);
+		Optional<Entry<String, SaveElement>> result = members.entrySet().stream().filter(e -> e.getKey().equals(name))
+				.findFirst();
+		if(result.isPresent())
+		{
+			return result.get().getValue();
+		}
+		return null;
+	}
+	
+	public List<SaveElement> getAllByName(String name)
+	{
+		return members.entrySet().stream().filter(e -> e.getKey().equals(name)).map(Entry::getValue)
+				.collect(Collectors.toList());
+	}
+	
+	public String getSelfName()
+	{
+		return selfName;
+	}
+	
+	public void setSelfName(String selfName)
+	{
+		this.selfName = selfName;
 	}
 	
 	@Override
 	public String toString()
 	{
-		StringBuilder builder = new StringBuilder();
-		members.forEach((key, value) -> {
-			if(!key.equals(""))
-			{
-				builder.append(key).append("=");
-			}
+		return "";
+	}
+	
+	@Override
+	public void write(IndentedFileWriter writer)
+	{
+		members.forEach((key, value) ->
+		{
 			if(!(value instanceof SavePrimitive))
 			{
-				builder.append("{\n");
+				writer.startTag(key);
+				value.write(writer);
+				writer.endTag();
 			}
-			builder.append(value).append("\n");
-			if(!(value instanceof SavePrimitive))
+			else
 			{
-				builder.append("}\n");
+				writer.write(key + "=" + value + "\r\n");
 			}
 		});
-		return builder.toString();
 	}
 }

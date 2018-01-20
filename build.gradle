@@ -13,7 +13,7 @@ repositories {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'ClipboardSync Desktop Jar',
+        attributes 'Implementation-Title': 'HOIEditor',
                 'Implementation-Version': version,
                 'Main-Class': 'com.adihascal.HOIEditor.Main'
     }

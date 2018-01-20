@@ -7,10 +7,12 @@ public class FileParser
 {
 	private final String source;
 	private final int length;
-	private int pos = 9;
+	private int pos;
+	private String currentParent = null;
 	
-	public FileParser(String source)
+	public FileParser(String source, int skip)
 	{
+		this.pos = skip;
 		this.source = source;
 		this.length = source.length();
 	}
@@ -82,9 +84,9 @@ public class FileParser
 		return sb.toString();
 	}
 	
-	public SaveElement parse() throws Exception
+	public SaveObject parse() throws Exception
 	{
-		SaveElement value = this.parseObject(true);
+		SaveObject value = this.parseObject(true);
 		this.skipWhiteSpace();
 		if(this.pos < this.length)
 		{
@@ -150,6 +152,7 @@ public class FileParser
 	private SaveObject parseObject(boolean root) throws Exception
 	{
 		SaveObject object = new SaveObject();
+		String localParent = currentParent;
 		
 		assert root || this.peek() == '{';
 		
@@ -167,7 +170,12 @@ public class FileParser
 				case '"':
 					String id = this.parseString(true).getValue();
 					this.expectEqual();
+					currentParent = id;
 					SaveElement value = this.parseLiteral();
+					if(localParent != null)
+					{
+						object.setSelfName(localParent);
+					}
 					object.add(id, value);
 					break;
 				case ' ':
@@ -183,7 +191,12 @@ public class FileParser
 				default:
 					id = this.parseString(false).getValue();
 					this.expectEqual();
+					currentParent = id;
 					value = this.parseLiteral();
+					if(localParent != null)
+					{
+						object.setSelfName(localParent);
+					}
 					object.add(id, value);
 					break;
 			}
@@ -433,10 +446,10 @@ public class FileParser
 		{
 			switch(this.peek())
 			{
-				case 9:
-				case 10:
-				case 13:
-				case 32:
+				case '\t':
+				case '\n':
+				case '\r':
+				case ' ':
 					++this.pos;
 					break;
 				default:

@@ -1,12 +1,17 @@
 package com.adihascal.HOIEditor.parser;
 
-import java.util.Collection;
+import com.adihascal.HOIEditor.IndentedFileWriter;
 
-public class SaveArray implements SaveElement
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.function.Consumer;
+
+public class SaveArray implements SaveElement, Iterable<SaveElement>
 {
 	private SaveElement[] array;
 	
-	public SaveArray(Collection<SaveElement> arr)
+	SaveArray(Collection<SaveElement> arr)
 	{
 		this.array = arr.toArray(new SaveElement[0]);
 	}
@@ -19,11 +24,45 @@ public class SaveArray implements SaveElement
 	@Override
 	public String toString()
 	{
-		StringBuilder sb = new StringBuilder();
-		for(SaveElement se : array)
-		{
-			sb.append(se).append("\n");
-		}
-		return sb.toString();
+		return "";
 	}
+	
+	@Override
+	public Iterator<SaveElement> iterator()
+	{
+		return new Iterator<SaveElement>()
+		{
+			int index = 0;
+			
+			@Override
+			public boolean hasNext()
+			{
+				return index < array.length;
+			}
+			
+			@Override
+			public SaveElement next()
+			{
+				return array[index++];
+			}
+		};
+	}
+	
+	@Override
+	public void forEach(Consumer<? super SaveElement> action)
+	{
+		Arrays.stream(array).forEach(action);
+	}
+	
+	@Override
+	public void write(IndentedFileWriter writer)
+	{
+		if(array.length > 0)
+		{
+			writer.write("");
+			forEach(a -> writer.writeNoIndent(a + " "));
+			writer.write("\r\n");
+		}
+	}
+	
 }
