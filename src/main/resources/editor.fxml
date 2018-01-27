@@ -4,20 +4,20 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="400.0" minWidth="600.0"
             xmlns="http://javafx.com/javafx/8.0.121" fx:controller="com.adihascal.HOIEditor.EditorGuiHandler">
-    <Accordion id="categories" fx:id="categories" prefHeight="400.0" prefWidth="140.0">
+    <Accordion id="categories" fx:id="categories" prefHeight="400.0" prefWidth="200.0">
         <panes>
-            <TitledPane animated="false" text="untitled 1">
+            <TitledPane animated="false" prefWidth="200.0" text="untitled 1">
                 <AnchorPane id="content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
             </TitledPane>
-            <TitledPane animated="false" text="untitled 2">
+            <TitledPane animated="false" prefWidth="200.0" text="untitled 2">
                 <AnchorPane id="content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
             </TitledPane>
-            <TitledPane animated="false" text="untitled 3">
-                <AnchorPane id="content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            <TitledPane animated="false" prefWidth="200.0" text="untitled 3">
+                <AnchorPane id="content" minHeight="0.0" minWidth="0.0" prefHeight="135.0" prefWidth="198.0"/>
             </TitledPane>
         </panes>
     </Accordion>
-    <ScrollPane id="editPane" fx:id="editPane" layoutX="139.0" prefHeight="400.0" prefWidth="461.0">
-        <AnchorPane prefHeight="399.0" prefWidth="460.0"/>
+    <ScrollPane id="editPane" fx:id="editPane" layoutX="200.0" prefHeight="400.0" prefWidth="400.0">
+        <AnchorPane prefHeight="399.0" prefWidth="399.0"/>
     </ScrollPane>
 </AnchorPane>

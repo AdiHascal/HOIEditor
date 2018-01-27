@@ -165,6 +165,10 @@ public class FileParser
 		{
 			this.skipWhiteSpace();
 			int c = this.peek();
+			if(c == -1)
+			{
+				return object;
+			}
 			switch(c)
 			{
 				case '"':

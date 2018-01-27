@@ -3,6 +3,7 @@ package com.adihascal.HOIEditor;
 import com.adihascal.HOIEditor.parser.FileParser;
 import com.adihascal.HOIEditor.parser.SaveObject;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
@@ -36,6 +37,7 @@ public class Main extends Application
 			File result = fc.showOpenDialog(null);
 			if(result == null)
 			{
+				Platform.exit();
 				return;
 			}
 			root = new FileParser(new String(Files.readAllBytes(result.toPath())), 9).parse();
