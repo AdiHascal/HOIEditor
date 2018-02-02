@@ -7,13 +7,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-public class SaveArray implements SaveElement, Iterable<SaveElement>
+public class SaveArray implements SaveElement, Iterable<SavePrimitive>
 {
-	private SaveElement[] array;
+	private SavePrimitive[] array;
 	
-	SaveArray(Collection<SaveElement> arr)
+	SaveArray(Collection<SavePrimitive> arr)
 	{
-		this.array = arr.toArray(new SaveElement[0]);
+		this.array = arr.toArray(new SavePrimitive[0]);
 	}
 	
 	public SaveElement get(int i)
@@ -28,9 +28,9 @@ public class SaveArray implements SaveElement, Iterable<SaveElement>
 	}
 	
 	@Override
-	public Iterator<SaveElement> iterator()
+	public Iterator<SavePrimitive> iterator()
 	{
-		return new Iterator<SaveElement>()
+		return new Iterator<SavePrimitive>()
 		{
 			int index = 0;
 			
@@ -41,7 +41,7 @@ public class SaveArray implements SaveElement, Iterable<SaveElement>
 			}
 			
 			@Override
-			public SaveElement next()
+			public SavePrimitive next()
 			{
 				return array[index++];
 			}
@@ -49,7 +49,7 @@ public class SaveArray implements SaveElement, Iterable<SaveElement>
 	}
 	
 	@Override
-	public void forEach(Consumer<? super SaveElement> action)
+	public void forEach(Consumer<? super SavePrimitive> action)
 	{
 		Arrays.stream(array).forEach(action);
 	}

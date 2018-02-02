@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class EditableContent
 {
-	static HashMap<String, HashMap<String, SaveObject>> categories = new HashMap<>();
+	static HashMap<String, TreeMap<String, SaveObject>> categories = new HashMap<>();
 	
 	public static void initEditor(SaveObject root)
 	{
@@ -21,7 +21,7 @@ public class EditableContent
 					.readAllBytes(Paths.get(EditableContent.class.getResource("/categories").toURI()))), 0).parse();
 			LinkedList<Category> cats = new LinkedList<>();
 			categoryRoot.getMembers().forEach((key, value) -> cats.add(new Category((SaveObject) value)));
-			cats.forEach(c -> categories.put(c.categoryName, new HashMap<>()));
+			cats.forEach(c -> categories.put(c.categoryName, new TreeMap<>(Comparator.naturalOrder())));
 			traverseSave(cats, root);
 		}
 		catch(Exception e)

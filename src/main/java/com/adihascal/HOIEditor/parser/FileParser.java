@@ -228,7 +228,7 @@ public class FileParser
 	
 	private SaveArray parseArray() throws Exception
 	{
-		ArrayList<SaveElement> list = new ArrayList<>();
+		ArrayList<SavePrimitive> list = new ArrayList<>();
 		assert this.peek() == '{';
 		
 		++this.pos;
@@ -243,7 +243,7 @@ public class FileParser
 					++this.pos;
 					return new SaveArray(list);
 				default:
-					list.add(this.parseLiteral());
+					list.add((SavePrimitive) this.parseLiteral());
 			}
 		}
 		

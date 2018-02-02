@@ -2,14 +2,12 @@ package com.adihascal.HOIEditor.parser;
 
 import com.adihascal.HOIEditor.IndentedFileWriter;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class SaveObject implements SaveElement
+public class SaveObject implements SaveElement, Iterable<Entry<String, SaveElement>>
 {
 	@SuppressWarnings("ComparatorMethodParameterNotUsed")
 	private Map<String, SaveElement> members = new TreeMap<>((o1, o2) -> 1);
@@ -79,5 +77,17 @@ public class SaveObject implements SaveElement
 				writer.write(key + "=" + value + "\r\n");
 			}
 		});
+	}
+	
+	@Override
+	public Iterator<Entry<String, SaveElement>> iterator()
+	{
+		return members.entrySet().iterator();
+	}
+	
+	@Override
+	public void forEach(Consumer<? super Entry<String, SaveElement>> action)
+	{
+		members.entrySet().forEach(action);
 	}
 }
