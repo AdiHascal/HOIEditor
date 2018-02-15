@@ -4,8 +4,7 @@ import com.adihascal.HOIEditor.parser.FileParser;
 import com.adihascal.HOIEditor.parser.SaveElement;
 import com.adihascal.HOIEditor.parser.SaveObject;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,12 +12,15 @@ public class EditableContent
 {
 	static HashMap<String, TreeMap<String, SaveObject>> categories = new HashMap<>();
 	
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public static void initEditor(SaveObject root)
 	{
 		try
 		{
-			SaveObject categoryRoot = new FileParser(new String(Files
-					.readAllBytes(Paths.get(EditableContent.class.getResource("/categories").toURI()))), 0).parse();
+			InputStream stream = EditableContent.class.getResourceAsStream("/categories");
+			byte[] data = new byte[stream.available()];
+			stream.read(data);
+			SaveObject categoryRoot = new FileParser(new String(data), 0).parse();
 			LinkedList<Category> cats = new LinkedList<>();
 			categoryRoot.getMembers().forEach((key, value) -> cats.add(new Category((SaveObject) value)));
 			cats.forEach(c -> categories.put(c.categoryName, new TreeMap<>(Comparator.naturalOrder())));

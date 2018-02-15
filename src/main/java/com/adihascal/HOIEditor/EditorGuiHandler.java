@@ -3,7 +3,6 @@ package com.adihascal.HOIEditor;
 import com.adihascal.HOIEditor.parser.SaveArray;
 import com.adihascal.HOIEditor.parser.SaveObject;
 import com.adihascal.HOIEditor.parser.SavePrimitive;
-import com.sun.javafx.tk.Toolkit;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -132,7 +131,14 @@ public class EditorGuiHandler implements Initializable, EventHandler<Event>
 	
 	private int getStringWidth(String str, Font font)
 	{
-		return (int) Math.ceil(Toolkit.getToolkit().getFontLoader().computeStringWidth(str, font));
+		Text helper = new Text();
+		helper.setFont(font);
+		helper.setText(str);
+		helper.setWrappingWidth(0);
+		helper.setLineSpacing(0);
+		double w = Math.min(helper.prefWidth(-1), (double) 0);
+		helper.setWrappingWidth((int) Math.ceil(w));
+		return (int) Math.ceil(helper.getLayoutBounds().getWidth());
 	}
 	
 	private void displayObject(SaveObject obj, PositionTracker tracker)
